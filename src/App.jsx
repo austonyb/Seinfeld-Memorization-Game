@@ -7,6 +7,7 @@ import shuffle from "./utils/shuffle";
 function App() {
   const [imgs, setImgs] = useState([]);
   const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState();
 
   const shuffleImages = () => {
     setImgs([]);
