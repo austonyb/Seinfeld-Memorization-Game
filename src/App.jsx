@@ -1,38 +1,56 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import ImageGrid from "./components/ImageGrid";
 import gifs from "./utils/gifs";
+import ImageCard from "./components/ImageCard";
+import { useState, useEffect } from "react";
+import shuffle from "./utils/shuffle";
 
 function App() {
-  const [gifSet, setGifSet] = useState([]);
+  const [imgs, setImgs] = useState([]);
+  const [score, setScore] = useState(0);
 
-  const randomSet = () => {
-    let l = gifs.length;
-    let r = [];
+  const shuffleImages = () => {
+    setImgs([]);
 
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
+    let shuffledGifs = shuffle(gifs);
+    let gameArr = [];
+
+    for (let i = 0; i < 8; i++) {
+      gameArr.push(shuffledGifs[i]);
     }
 
-    for (let i = 0; i < 16; i++) {
-      let j = getRandomInt(l);
-      r.push(gifs[j]); // Use j as the index to select a random gif
-    }
-    setGifSet([])
-    setGifSet(r);
-  }
+    gameArr = [...gameArr, ...gameArr];
+    console.log(gameArr);
+
+    gameArr = shuffle(gameArr);
+    console.log(gameArr);
+
+    setImgs(gameArr);
+  };
+
+  const newGame = () => {
+    setScore(0);
+    shuffleImages();
+  };
 
   useEffect(() => {
-    randomSet();
+    shuffleImages();
   }, []);
+
+  const imageList =
+    imgs && imgs.length > 0
+      ? imgs.map((item, index) => (
+          <div key={item.url} className="m-2">
+            <ImageCard src={item.url} alt={item.name} />
+          </div>
+        ))
+      : null; // Check if imgs is not an empty array before mapping
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen bg-gradient-to-r from-cyan-500 to-blue-500 text-white p-10">
       <img src="Seinfeld_logo.svg" alt="Seinfeld Logo" className="w-1/4 p-4" />
-      <ImageGrid imgs={gifSet} />
-      <button onClick={randomSet}>New Game</button>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">{imageList}</div>
+      <button onClick={newGame}>New Game</button>
     </div>
   );
 }
-
 export default App;
