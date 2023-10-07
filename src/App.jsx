@@ -107,6 +107,8 @@ function App() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">{imageList}</div>
       <div className="mt-4">Score: {score}</div>
       <button onClick={newGame}>New Game</button>
+      <br />
+      <h2 className="font-2xl">JUST A FAN PROJECT, NOT ENDORSED BY THE SHOW OR ITS OWNERS</h2>
     </div>
   );
 }
